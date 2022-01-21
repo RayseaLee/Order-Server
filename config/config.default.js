@@ -1,0 +1,27 @@
+/*
+ * @Description: 
+ * @Author: RayseaLee
+ * @Date: 2021-12-09 14:32:30
+ * @FilePath: \VScode\learn-koa2\koa2-generator\config\config.default.js
+ * @LastEditTime: 2022-01-20 14:39:56
+ * @LastEditors: RayseaLee
+ */
+module.exports = {
+  db_config: {
+    database: 'order_cms_db',
+    host: '127.0.0.1',
+    port: '3306',
+    username: 'root',
+    password: 'ren6191?' 
+  },
+  upload_config: {
+    // baseURL: 'http://172.19.0.39:3000'
+    // baseURL: 'http://172.19.11.201:3000'
+    // baseURL: 'http://192.168.59.196:3000'
+    baseURL: 'http://172.19.11.0:3000'
+    // baseURL: 'http://192.168.0.100:3000'
+  },
+  jwtSecret: 'RayseaLeeAndSgwzg',
+  appId: 'wxf26c50f64db18e0f',
+  appSecret: 'bf9598e59501f5b3d213b70b319e6094'
+}
