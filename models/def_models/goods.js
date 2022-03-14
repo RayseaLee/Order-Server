@@ -2,8 +2,8 @@
  * @Description: 商品Model
  * @Author: RayseaLee
  * @Date: 2021-12-22 09:53:51
- * @FilePath: \VScode\learn-koa2\koa2-generator\models\def_models\goods.js
- * @LastEditTime: 2022-01-18 11:29:49
+ * @FilePath: \koa2-generator\models\def_models\goods.js
+ * @LastEditTime: 2022-03-04 15:03:22
  * @LastEditors: RayseaLee
  */
 module.exports = function(sequelize, DataTypes) {
@@ -63,8 +63,8 @@ module.exports = function(sequelize, DataTypes) {
       Goods.hasMany(models.GoodsPic, {
         foreignKey: 'goods_id',
         as: 'goodsPics',
-        sourceKey: 'id',
-        constraints: false
+        sourceKey: 'id'
+        // constraints: false
       })
       Goods.belongsTo(models.Category, {
         foreignKey: 'category_id',

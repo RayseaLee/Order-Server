@@ -3,7 +3,7 @@
  * @Author: RayseaLee
  * @Date: 2021-12-22 15:23:32
  * @FilePath: \koa2-generator\controllers\StoreController.js
- * @LastEditTime: 2021-12-27 14:49:23
+ * @LastEditTime: 2022-03-04 18:07:50
  * @LastEditors: RayseaLee
  */
 const fs = require('fs/promises')
@@ -36,4 +36,19 @@ module.exports.updateStoreLogo = async (ctx, next) => {
 // 更新店铺信息
 module.exports.updateStoreInfo = async (ctx, next) => {
   await catchException(ctx, storeService.updateStoreInfo(ctx.request.body, callback(ctx)))
+}
+
+// 获取轮播图信息
+module.exports.getSwiperInfo = async (ctx, next) => {
+  await catchException(ctx, storeService.getSwiperInfo(ctx.request.query, callback(ctx)))
+}
+
+// 添加轮播图
+module.exports.createSwiper = async (ctx, next) => {
+  await catchException(ctx, storeService.createSwiper(ctx.request.body, callback(ctx)))
+}
+
+// 删除轮播图
+module.exports.deleteSwiperById = async (ctx, next) => {
+  await catchException(ctx, storeService.deleteSwiperById(ctx.params.id, callback(ctx)))
 }

@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-22 09:14:33
- * @FilePath: \koa2-generator\models\def_models\swiper.js
- * @LastEditTime: 2021-12-22 09:23:10
+ * @FilePath: \VScode\learn-koa2\koa2-generator\models\def_models\swiper.js
+ * @LastEditTime: 2022-01-21 15:21:45
  * @LastEditors: RayseaLee
  */
 module.exports = function(sequelize, DataTypes) {
@@ -20,9 +20,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     status: {
       type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   }, {
     tableName: 'swipers',
+    timestamps: true
   })
   return Swiper
 }

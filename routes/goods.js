@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-28 14:49:26
- * @FilePath: \VScode\learn-koa2\koa2-generator\routes\goods.js
- * @LastEditTime: 2022-01-17 15:11:05
+ * @FilePath: \koa2-generator\routes\goods.js
+ * @LastEditTime: 2022-03-04 15:02:39
  * @LastEditors: RayseaLee
  */
 const router = require('koa-router')()
@@ -15,5 +15,9 @@ router.get('/goods', goodsController.getAllGoods)
 router.get('/goods/:id', goodsController.getGoodsById)
 // 添加商品
 router.post('/goods', goodsController.createGoods)
+// 修改商品信息
+router.put('/goods', goodsController.updateGoodsInfo)
+// 删除商品
+router.delete('/goods/:id', goodsController.deleteGoodsById)
 
 module.exports = router

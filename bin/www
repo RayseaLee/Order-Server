@@ -15,8 +15,10 @@ var http = require('http');
 var port = normalizePort(process.env.PORT || '3000');
 // app.set('port', port);
 
+const host = '172.19.10.202'
+// const host = '192.168.0.101'
 // const host = '192.168.59.196'
-const host = '172.19.11.0'
+// const host = '172.19.11.0'
 // const host = '172.19.0.39'
 // const host = '172.19.11.201'
 // const host = '192.168.0.105'
