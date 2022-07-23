@@ -3,7 +3,7 @@
  * @Author: RayseaLee
  * @Date: 2021-12-22 09:53:51
  * @FilePath: \koa2-generator\models\def_models\goods.js
- * @LastEditTime: 2022-03-04 15:03:22
+ * @LastEditTime: 2022-04-12 12:25:32
  * @LastEditors: RayseaLee
  */
 module.exports = function(sequelize, DataTypes) {
@@ -75,6 +75,17 @@ module.exports = function(sequelize, DataTypes) {
       Goods.belongsToMany(models.Parameter, {
         through: models.GoodsParameter,
       })
+      // Goods.belongsToMany(models.Order, {
+      //   as: 'orderGoods',
+      //   through: models.OrderGoods,
+      //   constraints: false
+      // })
+      // Goods.hasOne(models.OrderGoods, {
+      //   as: 'orderGoods',
+      //   foreignKey: 'good_id',
+      //   sourceKey: 'id',
+      //   constraints: false
+      // })
     }
   })
   return Goods

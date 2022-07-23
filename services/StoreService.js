@@ -3,13 +3,16 @@
  * @Author: RayseaLee
  * @Date: 2021-12-22 15:26:31
  * @FilePath: \koa2-generator\services\StoreService.js
- * @LastEditTime: 2022-03-05 15:15:36
+ * @LastEditTime: 2022-05-23 21:07:24
  * @LastEditors: RayseaLee
  */
 const Store = require('../models/index').Store
 const Swiper = require('../models/index').Swiper
+const Table = require('../models/index').Table
+const Order = require('../models/index').Order
 const fs = require('fs')
 const path = require('path')
+const { Op } = require("sequelize");
 const baseURL = require('../config/config.default').upload_config.baseURL
 
 // 获取店铺信息
@@ -82,6 +85,47 @@ module.exports.deleteSwiperById = async (id, callback) => {
   const res = await Swiper.destroy({where: {id}})
   if(res != 1) return callback('参数错误')
   callback(null, null)
+}
+
+module.exports.getTableInfo = async (callback) => {
+  const tables = await Table.findAll({
+    include: {
+      model: Order,
+      as: 'orders',
+      where: {
+        status: {
+          [Op.or]: ['进行中', '待支付']
+        }
+      },
+      required: false
+    }
+  })
+  callback(null, tables)
+}
+
+module.exports.updateTableInfo = async (data, callback) => {
+  const {id, name, occupy, complete, contain} = data
+  const table = await Table.findByPk(id)
+  if(name !== null) {
+    const t = await Table.findOne({
+      where: {
+        name
+      }
+    })
+    if(t !== null && t.id != id) return callback('餐桌名已存在') 
+    table.name = name
+  }
+  if(complete !== null) table.complete = complete
+  if(occupy !== null) {
+    table.occupy = occupy
+    if(occupy === false) {
+      table.complete = null
+    }
+  }
+  if(contain !== null) table.contain = contain
+  await table.save()
+  if(table === null) throw Error('更新失败')
+  callback(null, table)
 }
 
 // 保存图片

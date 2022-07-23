@@ -3,7 +3,7 @@
  * @Author: RayseaLee
  * @Date: 2021-12-22 15:22:16
  * @FilePath: \koa2-generator\routes\store.js
- * @LastEditTime: 2022-03-04 17:54:19
+ * @LastEditTime: 2022-04-15 11:18:50
  * @LastEditors: RayseaLee
  */
 const router = require('koa-router')()
@@ -22,5 +22,9 @@ router.get('/swipers', storeController.getSwiperInfo)
 router.post('/swipers', storeController.createSwiper)
 // 删除轮播图
 router.delete('/swipers/:id', storeController.deleteSwiperById)
+// 获取桌台信息
+router.get('/tables', storeController.getTableInfo)
+router.put('/tables', storeController.updateTableInfo)
+
 
 module.exports = router

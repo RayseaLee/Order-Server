@@ -3,11 +3,11 @@
  * @Author: RayseaLee
  * @Date: 2022-03-08 11:48:54
  * @FilePath: \koa2-generator\models\def_models\orderGoods.js
- * @LastEditTime: 2022-03-08 12:00:38
+ * @LastEditTime: 2022-04-12 11:06:41
  * @LastEditors: RayseaLee
  */
 module.exports = function(sequelize, DataTypes) {
-  const orderGoods = sequelize.define('orderGoods', {
+  const OrderGoods = sequelize.define('OrderGoods', {
     id: {
       type: DataTypes.INTEGER.UNSIGNED,
       autoIncrement: true,
@@ -20,14 +20,18 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     // 菜品id
-    goods_id: {
+    good_id: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },
     // 菜品数量
-    goods_number: {
+    number: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
+    },
+    // 菜品参数
+    params: {
+      type: DataTypes.STRING
     },
     // 菜品单价
     unit_price: {
@@ -39,9 +43,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     }
-
   }, {
-    tableName: 'orders_goods'
+    tableName: 'order_goods'
   })
-  return orderGoods
+  return OrderGoods
 }

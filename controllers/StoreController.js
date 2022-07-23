@@ -3,7 +3,7 @@
  * @Author: RayseaLee
  * @Date: 2021-12-22 15:23:32
  * @FilePath: \koa2-generator\controllers\StoreController.js
- * @LastEditTime: 2022-03-04 18:07:50
+ * @LastEditTime: 2022-04-15 11:23:35
  * @LastEditors: RayseaLee
  */
 const fs = require('fs/promises')
@@ -14,12 +14,12 @@ const catchException = require('../modules/catch')
 const callback = require('../modules/callback')
 
 // 获取店铺信息
-module.exports.getStoreInfo = async (ctx, next) => {
+const getStoreInfo = async (ctx, next) => {
   await catchException(ctx, storeService.getStoreInfo(callback(ctx)))
 }
 
 // 上传店铺logo
-module.exports.updateStoreLogo = async (ctx, next) => {
+const updateStoreLogo = async (ctx, next) => {
   try {
     console.log(ctx.request.file)
     const fileExtArray = ctx.request.file.originalname.split(".")
@@ -34,21 +34,40 @@ module.exports.updateStoreLogo = async (ctx, next) => {
 }
 
 // 更新店铺信息
-module.exports.updateStoreInfo = async (ctx, next) => {
+const updateStoreInfo = async (ctx, next) => {
   await catchException(ctx, storeService.updateStoreInfo(ctx.request.body, callback(ctx)))
 }
 
 // 获取轮播图信息
-module.exports.getSwiperInfo = async (ctx, next) => {
+const getSwiperInfo = async (ctx, next) => {
   await catchException(ctx, storeService.getSwiperInfo(ctx.request.query, callback(ctx)))
 }
 
 // 添加轮播图
-module.exports.createSwiper = async (ctx, next) => {
+const createSwiper = async (ctx, next) => {
   await catchException(ctx, storeService.createSwiper(ctx.request.body, callback(ctx)))
 }
 
 // 删除轮播图
-module.exports.deleteSwiperById = async (ctx, next) => {
+const deleteSwiperById = async (ctx, next) => {
   await catchException(ctx, storeService.deleteSwiperById(ctx.params.id, callback(ctx)))
+}
+
+const getTableInfo = async (ctx, next) => {
+  await catchException(ctx, storeService.getTableInfo(callback(ctx)))
+}
+
+const updateTableInfo = async (ctx, next) => {
+  await catchException(ctx, storeService.updateTableInfo(ctx.request.body, callback(ctx)))
+}
+
+module.exports = {
+  getStoreInfo,
+  updateStoreLogo,
+  updateStoreInfo,
+  getSwiperInfo,
+  createSwiper,
+  deleteSwiperById,
+  getTableInfo,
+  updateTableInfo
 }

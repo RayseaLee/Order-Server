@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('demo:server');
 var http = require('http');
+const ws = require('../modules/websockets.js')
 
 /**
  * Get port from environment and store in Express.
@@ -15,8 +16,8 @@ var http = require('http');
 var port = normalizePort(process.env.PORT || '3000');
 // app.set('port', port);
 
-const host = '172.19.10.202'
-// const host = '192.168.0.101'
+const host = '192.168.255.196'
+// const host = '192.168.0.103'
 // const host = '192.168.59.196'
 // const host = '172.19.11.0'
 // const host = '172.19.0.39'
@@ -24,12 +25,8 @@ const host = '172.19.10.202'
 // const host = '192.168.0.105'
 // const host = '192.168.0.100'
 
-
-/**
- * Create HTTP server.
- */
-
-var server = http.createServer(app.callback());
+const server = http.createServer(app.callback());
+ws.WebSocketsInit(server)
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -48,17 +45,14 @@ server.on('listening', onListening);
 
 function normalizePort(val) {
   var port = parseInt(val, 10);
-
   if (isNaN(port)) {
     // named pipe
     return val;
   }
-
   if (port >= 0) {
     // port number
     return port;
   }
-
   return false;
 }
 
@@ -70,11 +64,9 @@ function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
-
   var bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port;
-
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':

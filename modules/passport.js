@@ -3,13 +3,14 @@
  * @Author: RayseaLee
  * @Date: 2021-12-14 15:35:24
  * @FilePath: \koa2-generator\modules\passport.js
- * @LastEditTime: 2021-12-16 16:52:20
+ * @LastEditTime: 2022-04-11 11:19:32
  * @LastEditors: RayseaLee
  */
 const passport = require('koa-passport')
 const LocalStrategy = require('passport-local').Strategy
 const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt
+const WechatUser = require('../models').WechatUser
 const jwt = require('jsonwebtoken')
 const { jwtSecret } = require('../config/config.default')
 
@@ -37,8 +38,7 @@ module.exports.setup = function(app, loginFunc, callback) {
     }
   ))
   // token 验证策略
-  passport.use(new JwtStrategy(opts,function(jwt_payload, done) {
-      console.log('jwt_payload:', jwt_payload)
+  passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
       return done(null, jwt_payload)
     }
   ))
@@ -65,7 +65,7 @@ module.exports.login = async function(ctx, next) {
       }, 
       jwtSecret,
       {
-        'expiresIn': 7200
+        'expiresIn': 36000
       }
     )
     user.token = 'Bearer ' + token
@@ -80,28 +80,26 @@ module.exports.login = async function(ctx, next) {
  * @param  {Function} next 传递事件函数
  */
 module.exports.tokenAuth = function(ctx, next) {
-  console.log('-------------------')
+  console.log('---------token验证开始: ----------')
   if (ctx.url == '/login' || ctx.url == '/wxlogin') {
     return next()
   }
   return passport.authenticate('jwt', {session: false}, async function(err, tokenData) {
-    console.log('token验证: ');
     console.log('err:', err)
-    console.log('tokenData:', tokenData)
+    // console.log('tokenData:', tokenData)
     if(err) return ctx.send(null, 401, err)
     if(!tokenData) return ctx.send(null, 401, 'token已失效，请重新登录')
-    const {id, roleId} = tokenData
-    // if (ctx.request.body) {
-    //   ctx.request.body.id = id
-    //   ctx.request.body.role_id = role_id
-    // }
-    if(JSON.stringify(ctx.request.body) == '{}') {
-      ctx.request.body = {
-        id, 
-        roleId
+    if (tokenData.openid) {
+      const { user_id, openid } = tokenData
+      const wx_user = await WechatUser.findByPk(user_id)
+      if (!wx_user || wx_user.open_id != openid) {
+        return ctx.send(null, 403, 'ForBidden')
+      } else {
+        ctx.request.body['user_id'] = user_id
       }
     }
-    console.log('body:', ctx.request.body)
+    if(ctx.url == '/auth') return ctx.send(null, 200, 'success')
+    console.log('---------token验证结束----------')
     await next()
   })(ctx, next)
 }

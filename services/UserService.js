@@ -3,13 +3,14 @@
  * @Author: RayseaLee
  * @Date: 2021-12-15 15:00:31
  * @FilePath: \koa2-generator\services\UserService.js
- * @LastEditTime: 2021-12-28 17:57:18
+ * @LastEditTime: 2022-05-05 14:41:31
  * @LastEditors: RayseaLee
  */
 const User = require('../models').User
 const Role = require('../models').Role
 const dao = require('../Dao/Dao')
 const sequelize = require('sequelize')
+const { Op } = sequelize
 
 const baseConditions = {
   attributes: {
@@ -29,12 +30,17 @@ module.exports.queryAllUsers = async (params, callback) => {
       as: 'role',
       attributes: [],
     },
-    attributes: { 
+    attributes: {
       include: [
         [sequelize.col('role.name'), 'roleName'],
         [sequelize.col('role_id'), 'roleId']
       ],
       exclude: ['role_id', 'password', sequelize.col('role.id'), 'role.name', 'role.description', 'role.menu_list'] 
+    },
+    where: {
+      role_id: {
+        [Op.ne]: 0
+      }
     },
     raw: true,
     offset: pageSize * (pageNum - 1),
@@ -53,7 +59,6 @@ module.exports.queryAllUsers = async (params, callback) => {
     pageNum: pageNum - 0,
     users: rows
   } 
-  console.log('data:', data)
   callback(null, data)
 }
 
@@ -119,6 +124,8 @@ module.exports.updateUserInfo = async (userInfo, callback) => {
 
 // 根据id删除用户
 module.exports.deleteUserById = async (id, callback) => {
+  const user = await User.findByPk(id)
+  if(user.role_id == 0) return callback('forbidden')
   await dao.deleteById(User, id, function(err, data) {
     if(err) return callback(err)
     callback(null, data)

@@ -3,7 +3,7 @@
  * @Author: RayseaLee
  * @Date: 2021-12-16 15:57:25
  * @FilePath: \koa2-generator\services\RoleService.js
- * @LastEditTime: 2021-12-22 11:12:11
+ * @LastEditTime: 2022-05-05 14:42:56
  * @LastEditors: RayseaLee
  */
 const Role = require('../models/index').Role
@@ -38,7 +38,6 @@ module.exports.queryAllRoles = async (callback) => {
       roles[i].children = listToTree(data)
     })
   }
-  console.log(roles)
   callback(null, roles)
 }
 

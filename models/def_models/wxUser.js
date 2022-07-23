@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-09 11:20:36
- * @FilePath: \koa2-generator\models\def_models\wx_user.js
- * @LastEditTime: 2021-12-13 09:39:34
+ * @FilePath: \koa2-generator\models\def_models\wxUser.js
+ * @LastEditTime: 2022-03-30 12:04:00
  * @LastEditors: RayseaLee
  */
 module.exports = function(sequelize, DataTypes) {
@@ -21,7 +21,7 @@ module.exports = function(sequelize, DataTypes) {
     nickname: {
       type: DataTypes.STRING,
     },
-    avatar: { 
+    avatar: {
       type: DataTypes.STRING
     },
     gender: {

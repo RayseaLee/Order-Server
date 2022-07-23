@@ -3,7 +3,7 @@
  * @Author: RayseaLee
  * @Date: 2021-12-09 14:32:30
  * @FilePath: \koa2-generator\config\config.default.js
- * @LastEditTime: 2022-03-14 10:13:18
+ * @LastEditTime: 2022-05-24 08:56:42
  * @LastEditors: RayseaLee
  */
 module.exports = {
@@ -15,8 +15,8 @@ module.exports = {
     password: 'ren6191?'
   },
   upload_config: {
-    baseURL: 'http://172.19.10.202:3000'
-    // baseURL: 'http://192.168.0.101:3000'
+    baseURL: 'http://192.168.255.196:3000'
+    // baseURL: 'http://192.168.0.103:3000'
     // baseURL: 'http://172.19.0.39:3000'
     // baseURL: 'http://172.19.11.201:3000'
     // baseURL: 'http://192.168.59.196:3000'

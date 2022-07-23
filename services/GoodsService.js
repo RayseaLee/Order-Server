@@ -3,7 +3,7 @@
  * @Author: RayseaLee
  * @Date: 2021-12-28 14:52:44
  * @FilePath: \koa2-generator\services\GoodsService.js
- * @LastEditTime: 2022-03-05 16:16:01
+ * @LastEditTime: 2022-04-10 21:32:14
  * @LastEditors: RayseaLee
  */
 const Goods = require('../models').Goods
@@ -47,12 +47,10 @@ module.exports.getAllGoods = async (params, callback) => {
         obj.pic_url = config.baseURL + obj.pic_url
       })
     })
-    console.log(data)
     callback(null, data)
   }
   // 分页查询
   else {
-    console.log(pageSize, pageNum);
     const conditions1 = {
       include: [
         {
@@ -148,7 +146,6 @@ module.exports.getAllGoods = async (params, callback) => {
         obj.pic_url = config.baseURL + obj.pic_url
       })
     })
-    console.log(data)
     callback(null, {
       total: count,
       pageNum: pageNum - 0,
@@ -213,7 +210,6 @@ module.exports.getGoodsById = async (id, callback) => {
   data.goodsPics.forEach(item => {
     item.pic_url = config.baseURL + item.pic_url
   })
-  console.log(data)
   callback(null, data)
 }
 
@@ -223,16 +219,17 @@ module.exports.updateGoodsInfo = async (data, callback) => {
   await _sequelize.transaction(async (updateGoodsT) => {
     const {goodsPics, parameterList, ...goodsInfo} = data
     const goods = await Goods.findByPk(goodsInfo.id, {transaction: updateGoodsT})
+    const res1 = await GoodsPic.destroy({where: {goods_id: goods.id}}, {transaction: updateGoodsT})
     // 保存图片到本地
     const arr = await saveGoodsPics(goods.id, goodsPics)
     // 批量创建图片到数据库
     await GoodsPic.bulkCreate(arr, {transaction: updateGoodsT})
-    const res = await GoodsParameter.destroy({
+    // 首先删除商品参数
+    const res2 = await GoodsParameter.destroy({
       where: {
         good_id: goodsInfo.id
       }
     }, {transaction: updateGoodsT})
-    console.log(res)
     parameterList.forEach((item, index) => {
       parameterList[index] = {
         good_id: goods.id,
@@ -269,7 +266,7 @@ module.exports.deleteGoodsById = async (id, callback) => {
 async function saveGoodsPics(goods_id, goodsPics) {
   const res = []
   for(let i = 0; i < goodsPics.length; i++) {
-    if(goodsPics[i].pic_url.indexOf('/public/temp') == 0) {
+    if (goodsPics[i].pic_url.indexOf('/public/temp') == 0) {
       const arr = goodsPics[i].pic_url.split('/')
       const filename = arr[arr.length - 1]
       const targetPath = '/uploads/goods/' + filename
@@ -279,6 +276,12 @@ async function saveGoodsPics(goods_id, goodsPics) {
       res.push({
         goods_id: goods_id,
         pic_url: targetPath
+      })
+    } else if (goodsPics[i].pic_url.indexOf('http://') == 0) {
+      const index = goodsPics[i].pic_url.indexOf('/uploads')
+      res.push({
+        goods_id: goods_id,
+        pic_url: goodsPics[i].pic_url.slice(index)
       })
     }
   }

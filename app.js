@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-04 19:04:04
- * @FilePath: \VScode\learn-koa2\koa2-generator\app.js
- * @LastEditTime: 2022-01-11 15:33:07
+ * @FilePath: \koa2-generator\app.js
+ * @LastEditTime: 2022-05-13 15:15:21
  * @LastEditors: RayseaLee
  */
 const Koa = require('koa')
@@ -91,6 +91,9 @@ const coupon = require('./routes/coupon')
 const goods = require('./routes/goods')
 const category = require('./routes/category')
 const parameter = require('./routes/parameter')
+const order = require('./routes/order')
+const evaluation = require('./routes/evaluation')
+const dashboard = require('./routes/dashboard')
 
 // 配置路由
 app.use(login.routes(), login.allowedMethods())
@@ -104,7 +107,9 @@ app.use(coupon.routes(), coupon.allowedMethods())
 app.use(goods.routes(), goods.allowedMethods())
 app.use(category.routes(), category.allowedMethods())
 app.use(parameter.routes(), parameter.allowedMethods())
-
+app.use(order.routes(), order.allowedMethods())
+app.use(evaluation.routes(), evaluation.allowedMethods())
+app.use(dashboard.routes(), dashboard.allowedMethods())
 
 // 错误处理
 app.on('error', (err, ctx) => {
