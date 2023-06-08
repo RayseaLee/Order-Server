@@ -12,7 +12,7 @@ module.exports = {
     host: '127.0.0.1',
     port: '3306',
     username: 'root',
-    password: 'ren6191?'
+    password: ''
   },
   upload_config: {
     baseURL: 'http://192.168.255.196:3000'
@@ -24,6 +24,6 @@ module.exports = {
     // baseURL: 'http://192.168.0.100:3000'
   },
   jwtSecret: 'RayseaLeeAndSgwzg',
-  appId: 'wxf26c50f64db18e0f',
-  appSecret: 'bf9598e59501f5b3d213b70b319e6094'
+  appId: '',
+  appSecret: ''
 }
